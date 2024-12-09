@@ -180,3 +180,11 @@ body {
 .chat-button > span {
     font-size: 1.8rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .chat-messages {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: bottom;
+    }
+}
