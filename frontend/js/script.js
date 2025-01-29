@@ -9,9 +9,11 @@ const chatMessages = document.querySelector(".chat-messages")
 const chatForm = chat.querySelector(".chat-form")
 const chatInput = chatForm.querySelector(".chat-input")
 
+const chatUsers = chat.querySelector(".chat-users")
+const chatUser = chatUsers.querySelector(".chat-user")
 
 // variaveis
-const user = { id: "", name: "", color: ""}
+const user = { id: "", name: "", color: "", login: false }
 const colors = [
     "coral",
     "aquamarine",
@@ -26,7 +28,7 @@ const colors = [
 ]
 
 let websocket
-
+let users = []
 
 // funções
 const createMessageSelf = (content) => {
@@ -52,7 +54,6 @@ const createMessageOther = (content, name, color) => {
     span.innerHTML = name
     div.innerHTML += content
     
-
     return div
 }
 
@@ -69,15 +70,78 @@ const scrollScreen = () => {
 }
 
 const processMessage = ({ data }) => {
-    const { userId, userName, userColor, userContent } = JSON.parse(data)
+    let content =  JSON.parse(data)
+    
+    if (content.users) {
+        createUsers(content.users)
+    }
 
-    const message = userId == user.id
-        ? createMessageSelf(userContent)
-        : createMessageOther(userContent, userName, userColor)
+    if (content.logout == true) {
+        createMessageLogout(content)
+    }
 
-    chatMessages.appendChild(message)
+    if (content.login == true) {
+        createMessageLogin(content)
+        createCountNotify(content)
+    }
+    const { userId, userName, userColor, userLogin, userContent } = JSON.parse(data)
+    
+    if (userLogin == false) {
+        const message = userId == user.id
+            ? createMessageSelf(userContent)
+            : createMessageOther(userContent, userName, userColor)
+            
+            chatMessages.appendChild(message)
+            scrollScreen()
+    }
+}
 
+const createUsers = (data) => {
+    chatUsers.innerHTML = ""
+    data.forEach(user => {
+        const div = document.createElement("div")
+    
+        div.classList.add("chat-user")
+        
+        div.innerHTML = user.name
+        div.style.color = user.color
+    
+        chatUsers.appendChild(div)
+    });
+}
+
+const createMessageLogin = (data) => {
+    const userLogin = document.createElement("div")
+    userLogin.classList.add("user-conection")
+    userLogin.innerHTML = `<span style="color: ${data.userColor}">${data.userName}</span> entrou no chat.`
+    chatMessages.appendChild(userLogin)
     scrollScreen()
+}
+
+const createMessageLogout = (data) => {
+    const user = data.user
+    const userLogout = document.createElement("div")
+    userLogout.classList.add("user-conection")
+    userLogout.innerHTML = `<span style="color: ${user.color}">${user.name}</span> se desconectou.`
+    chatMessages.appendChild(userLogout)
+    scrollScreen()
+}
+
+const createCountNotify = (data) => {
+    const countUsers = document.createElement("div")
+    countUsers.classList.add("count-users")
+    countUsers.innerHTML = `online: <span style="color: chartreuse">${data.users.length}</span>`
+    chatMessages.appendChild(countUsers)
+}
+
+const sendMessageLogin = (user) => {
+    const data = {
+        name: user.name,
+        color: user.color,
+        id: user.id
+    }
+    
+    websocket.send(JSON.stringify({type: "login", data}))
 }
 
 const handleLogin = (event) => {
@@ -90,7 +154,11 @@ const handleLogin = (event) => {
     login.style.display = "none"
     chat.style.display = "flex"
 
-    websocket = new WebSocket('wss://app-chating.onrender.com')
+    websocket = new WebSocket('ws://localhost:8080') //wss://app-chating.onrender.com
+    
+    websocket.onopen = () => sendMessageLogin(user)
+    websocket.onclose = () => websocket.send("close")
+
     websocket.onmessage = processMessage
 }
 
@@ -101,6 +169,7 @@ const sendMessage = (event) => {
         userId: user.id,
         userName: user.name,
         userColor: user.color,
+        userLogin: user.login,
         userContent: chatInput.value
     }
 
