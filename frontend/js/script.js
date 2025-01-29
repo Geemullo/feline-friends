@@ -78,6 +78,7 @@ const processMessage = ({ data }) => {
 
     if (content.logout == true) {
         createMessageLogout(content)
+        createCountNotify(content)
     }
 
     if (content.login == true) {
