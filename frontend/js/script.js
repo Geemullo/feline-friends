@@ -3,6 +3,8 @@ const login = document.querySelector(".login")
 const loginForm = login.querySelector(".login-form")
 const loginInput = loginForm.querySelector(".login-input")
 
+const conecting = document.querySelector(".conecting")
+
 //tela chat
 const chat = document.querySelector(".chat")
 const chatMessages = document.querySelector(".chat-messages")
@@ -136,6 +138,10 @@ const createCountNotify = (data) => {
 }
 
 const sendMessageLogin = (user) => {
+    
+    chat.style.display = "flex"
+    conecting.style.display = "none"
+
     const data = {
         name: user.name,
         color: user.color,
@@ -153,7 +159,7 @@ const handleLogin = (event) => {
     user.color = getRandomColor()
 
     login.style.display = "none"
-    chat.style.display = "flex"
+    conecting.style.display = "flex"
 
     websocket = new WebSocket('wss://app-chating.onrender.com') //wss://app-chating.onrender.com
     

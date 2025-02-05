@@ -29,7 +29,6 @@ wss.on("connection", (ws) => {
     })
 
     ws.on("close", () => {
-        console.log(users.entries())
         for (let [user, socket] of users.entries()) {
             if (socket == ws) {
                 users.delete(user)
