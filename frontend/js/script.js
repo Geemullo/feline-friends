@@ -161,7 +161,7 @@ const handleLogin = (event) => {
     login.style.display = "none"
     conecting.style.display = "flex"
 
-    websocket = new WebSocket('wss://app-chating.onrender.com') //wss://app-chating.onrender.com
+    websocket = new WebSocket('ws://localhost:8080') //wss://app-chating.onrender.com
     
     websocket.onopen = () => sendMessageLogin(user)
     websocket.onclose = () => websocket.send("close")
