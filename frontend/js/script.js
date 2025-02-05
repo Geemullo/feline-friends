@@ -64,9 +64,11 @@ const getRandomColor = () => {
     return colors[i]
 }
 
-const scrollScreen = () => {
-    window.scrollTo({
-        top: document.body.scrollHeight,
+
+const scrollDown = () => {
+    const chatContainer = document.querySelector(".chat-container")
+    chatContainer.scrollTo({
+        top: chatContainer.scrollHeight,
         behavior: "smooth"
     })
 }
@@ -95,7 +97,7 @@ const processMessage = ({ data }) => {
             : createMessageOther(userContent, userName, userColor)
             
             chatMessages.appendChild(message)
-            scrollScreen()
+            scrollDown()
     }
 }
 
@@ -118,7 +120,7 @@ const createMessageLogin = (data) => {
     userLogin.classList.add("user-conection")
     userLogin.innerHTML = `<span style="color: ${data.userColor}">${data.userName}</span> entrou no chat.`
     chatMessages.appendChild(userLogin)
-    scrollScreen()
+    scrollDown()
 }
 
 const createMessageLogout = (data) => {
@@ -127,7 +129,7 @@ const createMessageLogout = (data) => {
     userLogout.classList.add("user-conection")
     userLogout.innerHTML = `<span style="color: ${user.color}">${user.name}</span> se desconectou.`
     chatMessages.appendChild(userLogout)
-    scrollScreen()
+    scrollDown()
 }
 
 const createCountNotify = (data) => {
