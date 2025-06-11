@@ -250,7 +250,6 @@ body {
     color: #292929;
     font-weight: 400;
     font-size: 16px;
-    font-family: .8rem;
     outline: none;
 }
 
@@ -322,6 +321,29 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+    .open-close-users {
+        display: flex;
+    }
+    .chat-users-mobile {
+        display: flex;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: auto;
+    }
+    .chat-users {
+        display: none;
+    }
+    #close {
+        display: none;
+    }
+    .chat-messages > div {
+        font-size: 16px;
+        font-weight: 300;
+        width: fit-content;
+        max-width: 70%;
+        overflow: hidden;
+    }
     .chat-messages {
         background-repeat: no-repeat;
         background-size: cover;
