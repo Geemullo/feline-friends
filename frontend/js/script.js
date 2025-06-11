@@ -164,6 +164,7 @@ const createMessageLogout = (data) => {
 }
 
 const createCountNotify = (data) => {
+    countUsers.innerHTML = ""
     const countUsers = document.createElement("div")
     countUsers.classList.add("count-users")
     countUsers.innerHTML = `online: <span style="color: chartreuse">${data.users.length}</span>`
