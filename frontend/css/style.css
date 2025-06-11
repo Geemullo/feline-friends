@@ -103,14 +103,17 @@ body {
     padding: 15px;
     background-color: #313131;
     border-right: 1px solid #292929;
+    overflow: auto;
 }
 
 .chat-user {
-    padding: 8px;
+    padding: 4px 8px 4px 8px;
     border-radius: 8px;
-    border: 2px solid #666666;
+    border-bottom: 1px solid #666666;
     background-color: #474747;
-    font-size: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    width: max-content;
 }
 
 .chat-container {
@@ -145,21 +148,54 @@ body {
     align-self: center;
     background-color: #292929;
     color: #f5f5f5;
-    font-weight: 600;
-    max-width: 80%;
     border-radius: 10px;
     padding: 5px 10px;
+    border-bottom: 1px solid #696969;
+}
+
+.user-conection > span {
+    font-weight: 600;
 }
 
 .count-users {
-    background-color: #292929;
+    background-color: #292929bd;
     color: #f5f5f5;
     border-radius: 10px;
     font-weight: 600;
     position: fixed;
     top: 10px;
     right: 10px;
-    padding: 5px 10px;
+    padding: 3px 6px;
+}
+
+.section-chat-users-mobile{
+    position: absolute;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-users-mobile {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 0px;
+    height: 0vh;
+    padding: 0px;
+    background-color: #292929bd;
+    transition: .5s;
+}
+
+.open-close-users {
+    display: none;
+    background-color: #292929bd;
+    color: #f5f5f5;
+    border-radius: 8px;
+    border: 1px solid #f5f5f5;
+    margin-top: 10px;
+    font-weight: 600;
+    padding: 3px 6px;
+    width: fit-content;
+    height: fit-content;
 }
 
 .chat-self-messages {
@@ -257,6 +293,32 @@ body {
     border-bottom: 10px solid #d6d6d6;
     border-radius: 50%;
     animation: spinner .7s linear infinite;
+}
+
+@media only screen and (max-width: 425px) {
+    .open-close-users {
+        display: flex;
+    }
+    .chat-users-mobile {
+        display: flex;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: auto;
+    }
+    .chat-users {
+        display: none;
+    }
+    #close {
+        display: none;
+    }
+    .chat-messages > div {
+        font-size: 16px;
+        font-weight: 300;
+        width: fit-content;
+        max-width: 70%;
+        overflow: hidden;
+    }
 }
 
 @media only screen and (max-width: 600px) {

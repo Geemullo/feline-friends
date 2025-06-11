@@ -11,8 +11,16 @@ const chatMessages = document.querySelector(".chat-messages")
 const chatForm = chat.querySelector(".chat-form")
 const chatInput = chatForm.querySelector(".chat-input")
 
+const chatUsersMobile = chat.querySelector(".chat-users-mobile")
 const chatUsers = chat.querySelector(".chat-users")
 const chatUser = chatUsers.querySelector(".chat-user")
+
+// botao open close users
+
+const openClose = chat.querySelector(".open-close-users")
+const openUsers = openClose.querySelector("#menu")
+const closeUsers = openClose.querySelector("#close")
+
 
 // variaveis
 const user = { id: "", name: "", color: "", login: false }
@@ -33,6 +41,23 @@ let websocket
 let users = []
 
 // funções
+
+const openCloseButton = () => {
+    if (closeUsers.style.display == 'none') {
+        closeUsers.style.display = 'flex'
+        openUsers.style.display = 'none'
+        chatUsersMobile.style.width = '250px'
+        chatUsersMobile.style.height = '100vh'
+        chatUsersMobile.style.padding = '15px'
+    } else {
+        closeUsers.style.display = 'none'
+        openUsers.style.display = 'flex'
+        chatUsersMobile.style.width = '0'
+        chatUsersMobile.style.height = '0'
+        chatUsersMobile.style.padding = '0'
+    }
+}
+
 const createMessageSelf = (content) => {
     const div = document.createElement("div")
     
@@ -103,15 +128,21 @@ const processMessage = ({ data }) => {
 
 const createUsers = (data) => {
     chatUsers.innerHTML = ""
+    chatUsersMobile.innerHTML = ""
     data.forEach(user => {
-        const div = document.createElement("div")
+        const div1 = document.createElement("div")
+        const div2 = document.createElement("div")
     
-        div.classList.add("chat-user")
+        div1.classList.add("chat-user")
+        div2.classList.add("chat-user")
         
-        div.innerHTML = user.name
-        div.style.color = user.color
+        div1.innerHTML = user.name
+        div2.innerHTML = user.name
+        div1.style.color = user.color
+        div2.style.color = user.color
     
-        chatUsers.appendChild(div)
+        chatUsers.appendChild(div1)
+        chatUsersMobile.appendChild(div2)
     });
 }
 
@@ -190,3 +221,4 @@ const sendMessage = (event) => {
 // eventos
 loginForm.addEventListener("submit", handleLogin)
 chatForm.addEventListener("submit", sendMessage)
+openClose.addEventListener("click", openCloseButton)
