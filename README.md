@@ -106,9 +106,7 @@ O projeto está hospedado na plataforma **Render**:
 
 ## 📸 Screenshot
 
-```markdown
 ![Screenshot do Feline Friends](./frontend/img/screenshot.png)
-```
 
 ---
 
