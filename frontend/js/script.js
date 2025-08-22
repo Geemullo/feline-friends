@@ -164,9 +164,8 @@ const createMessageLogout = (data) => {
 }
 
 const createCountNotify = (data) => {
+    const countUsers = chat.querySelector(".count-users")
     countUsers.innerHTML = ""
-    const countUsers = document.createElement("div")
-    countUsers.classList.add("count-users")
     countUsers.innerHTML = `online: <span style="color: chartreuse">${data.users.length}</span>`
     chatMessages.appendChild(countUsers)
 }
